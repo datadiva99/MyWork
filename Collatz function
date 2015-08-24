@@ -1,0 +1,73 @@
+Task1
+f1 <- function (x){3*x+1}
+
+Task2
+f2 <- function (x){x/2}
+
+Task3
+is.even <-function(x) x%%2==0
+is.odd <-function(x) x%%2!=0
+
+collatz<-function(x){
+  if (x%%2==0) return (x/2)
+  else 
+    if (x%%2!=0) return (3*x+1)}
+
+p<-collatz
+
+Task 4
+f3 <- function(x,y){
+  z<-x
+  for(i in 1:y){
+    z[i+1]<-p(z[i])
+  }
+  return(z)
+}
+
+Task5
+f4 <- function(x){
+  z<-x
+  for(i in 1:1000){
+    if (z[i]==1) {break;}
+    else
+    {z[i+1]<-p(z[i])}
+  }
+  return(z)
+}
+plot(f4(9))
+
+Task6
+q<- (cbind (f4(100)))
+Task7
+f5<-function(x){
+  y<-vector()
+  for(k in x){
+    y<-c(y, length(f4(k))-1)
+  }
+
+return (data.frame(number = x, iterations =y ))
+}
+
+Task8
+ f6<-function(x){
+  y<-vector()
+  for(k in x){
+    y<-c(y ,max(f4(k)))
+  }
+  
+  return (data.frame(number = x, maxinorbit =y ))
+}
+ Task9
+    f7<-function(x){
+  y<-vector()
+  for(k in x){
+    y<-c(y,length(f4(k))-1)
+  }
+{
+  m<-vector()
+  for(k in x){
+    m<-c(m,max(f4(k)))
+  }
+  return (data.frame(number = x, maxinorbit =m, iterations =y ))
+}
+}
