@@ -1,5 +1,5 @@
-CKME 132
-R Programming
+
+R Programming lesson
 
 We are going to make functions in order to investigate the Collatz problem from Mathematics.  This is a famous and unsolved problem involving a simple function.  The Collatz function C(x) takes any integer x as an input, and then follows these steps:
 
