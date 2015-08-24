@@ -1,0 +1,35 @@
+Question 1
+
+a = load '/user/lab/pig/full_text.txt' AS (id:chararray, ts:chararray, location:chararray, lat:float, lon:float, tweet:chararray);
+b = foreach a generate ToDate(ts) as ts1, SUBSTRING(ts, 0, 10) as date, tweet as tweet;
+c = foreach b generate date, GetHour(ts1) as hour, tweet;
+d = FILTER c BY date MATCHES '2010-03-06';
+e = GROUP d by hour;
+f = FOREACH e GENERATE group as hour, COUNT (d) as cnt;
+g = order f by cnt desc;
+dump g;
+
+
+Question 2
+
+a = load '/user/lab/pig/full_text.txt' AS (id:chararray, ts:chararray, location:chararray, lat:float, lon:float, tweet:chararray);
+b = foreach a generate id, TOTUPLE(lat, lon) as latlon:tuple(lat:chararray, lon:chararray);
+c = distinct b;
+d = group c by id;
+e = foreach d generate group as id, COUNT(c) as cnt;
+f = order e by cnt desc;
+g = limit f 20;
+dump g;
+
+
+Questions 3
+
+a = load '/user/lab/pig/full_text.txt' AS (id:chararray, ts:chararray, location:chararray, lat:float, lon:float, tweet:chararray);
+b = foreach a generate LOWER(tweet) as tweet;
+c = foreach b generate REGEX_EXTRACT(tweet, '(.*)#(\\w+)(.*)',2) as tweet;
+d = group c by tweet;
+e = foreach d generate group as tweet, COUNT(c) as cnt;
+f = order e by cnt desc;
+g = limit f 10;
+dump g;
+
