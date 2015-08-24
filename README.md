@@ -41,16 +41,11 @@ Task 8: Use your function from Task 5 to create a function which takes a number 
 Task 9: Make a function which takes a numeric vector as an argument, and returns a data frame with three columns: the original number, the largest element of that number’s trajectory, and the number of iterations it takes to reach 1.  Each row of the data frame should correspond to one number in the input vector.  So if the input is 1:3, then the output should be
 
 
-	number	maxinorbit	iterations
+number	maxinorbit	iterations
 1	1	1	0
 2	2	2	1
 3	3	16	7
  
-
-Task 10: Modify your function from Task 9 so that the data frame includes only the 5 numbers that took the greatest number of iterations to reach 1 and the five numbers that took the least number of iterations to reach 1.
-
-Task 11: Modify your function from Task 9 so that the output data frame contains a fourth column which shows the number of odd numbers in the trajectory.
-
 
 
 
