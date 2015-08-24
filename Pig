@@ -4,3 +4,4 @@ Find the most mobile tweeter (User who tweeted from most distinct location (lat-
 Find 3 most popular topics (hashtags)
 Use the following regular expression to get the twitter hashtag
 hashtags = foreach twitter_data generate regex_extract(lower(tweet), '(.*)#(\\w+)(.*)',2) as ht 
+  
