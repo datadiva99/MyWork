@@ -1,0 +1,47 @@
+Question 1
+
+boxplot(mtcars$mpg~mtcars$cyl, 
+        main="Mpg by Cylinder Count", 
+        xlab="mpg", ylab=" Number of Cylinders", 
+        horizontal=FALSE, col=c("green", "red", "blue"))
+
+points(1,mean((mtcars$mpg[which(mtcars$cyl=="4")]),pch=25)) 
+points(2,mean((mtcars$mpg[which(mtcars$cyl=="6")]),pch=25))
+points(3,mean((mtcars$mpg[which(mtcars$cyl=="8")]),pch=25))
+
+legend("topright",
+       legend=c("4 cylinder", "6 cylinder", "8 cylinder"),
+       pch=15, col=c("green", "red", "blue"))
+
+ 
+
+Question 2
+
+plot(mtcars$wt, mtcars$mpg, type="n",
+     main="Mpg vs. Weight by Transmission Type",
+     xlab="Weight (in 1000lbs)", 
+     ylab="Miles per Gallon",
+     xlim<- c(1,6),
+     ylim<- c(0,35)
+                  )
+points(mtcars$wt[mtcars$am==1], mtcars$mpg[mtcars$am==1], pch=19,col="red")
+points(mtcars$wt[mtcars$am==0], mtcars$mpg[mtcars$am==0], pch=19,col="black")
+
+legend("bottomleft",
+        legend=c("automatic", "manual"),
+        pch=19, col=c("black", "red"))
+
+ 
+
+Question 3
+
+plot(-5:5,-5:5,type="n",xlab="",ylab="",frame=FALSE)
+curve(x*x, col="red", lwd=2, add=TRUE)
+curve(-x*x, col="blue", lwd=2, add=TRUE)
+
+text (x=-3, y=1, "red", col="red")
+text (x=3, y=-1, "blue", col="blue")
+
+grid(nx = NULL, ny = NULL, col = "black", lty = "dotted",
+     lwd = par("lwd"), equilogs = TRUE)
+ 
