@@ -1,84 +1,72 @@
-Question 1
-I used the tools tab to import the winequality.red.csv file
+#Question 1
+#I used the tools tab to import both datasets
 
 
-Question 2
-To check for missing I used the complete cases function
+#Question 2
+#To check for missing I used the complete cases function for both datasets
+
 
 winequality.red[!complete.cases(winequality.red),]
+#or I could have used
 
-Results
-> winequality.red[!complete.cases(winequality.red),]
- [1] fixed.acidity        volatile.acidity     citric.acid          residual.sugar      
- [5] chlorides            free.sulfur.dioxide  total.sulfur.dioxide density             
- [9] pH                   sulphates            alcohol              quality             
-<0 rows> (or 0-length row.names)
-
-
-I could have also used the code below. However this code would have returned results for the whole dataset and it’s not necessary given that I got the answer from the previous code.
-
+complete.cases(winequality.white)
 complete.cases(winequality.red)
 
-The output of both show that there are no missing values
+#The output of both show that there are no missing values
 
 
-Correlations
+#Change the format of the "quality" column to factor so it can be used as a label and not a numeric value
+winequality.red[, "quality"] <- as.factor(winequality.red[, "quality"])
+winequality.white[, "quality"] <- as.factor(winequality.white[, "quality"])
+#A check to ensure the class was changed
+
+class(winequality.red$quality)
+class(winequality.white$quality)
 
 
-To check for correlations I used the following code
+
+#To check for correlations
 cor(winequality.red[,1:11], method= c("pearson"))
 cor(winequality.red[,1:11], method= c("spearman"))
 
-Question 3
+#There were a few correlations so I check how strong the correlations were using
+#pearson and spearman test
+cor.test(winequality.red$fixed.acidity, winequality.red$alcohol, method= c("pearson"))
+cor.test(winequality.red$fixed.acidity, winequality.red$citric.acid, method= c("spearman"))
 
-I choose to model this problem as a classification issue.  The values of the dataset does not lend 
-itself to linear regression because the outcome variable "quality" is not continuous.  
-It only has 6 possible classes in which predications can be made to. 
+#Since there are a few correclations, I will use stepwise regression to see 
+#if those correlations have significance in my model
 
-I decided to run a comparison between both KNN and Logistic regression to see which model would perform best.  I expect KNN to outperform logistic regression because KNN is a greedy algorithm that makes less assumptions about the distribution in the data.  It also generalizes to many class prediction problems.
+#Question 3
+# I choose to model this problem as a classification issue.  The values of the dataset does not lend 
+#itself to linear regression because the outcome variable "quality" is not continuous.  
+#It only has 6 possible classes in which predications can be made to.
 
-Task- Classify the categories of quality of wine on a scale of 3 to 8
-based on 11 different variables
+#Task- Classify the categories of quality of wine on a scale of 3 to 8
+#based on 11 different variables
 
-Experience-Separate the winequality.red file into training and testing data using 10 fold cross validation
+#Experience-Separate the winequality.red file into training and testing data using 10 fold cross validation
+#
+#Performance Criteria- TP Rate, FP Rate, Recall, Precision, Confusion matrix
+#Compare results of Logistic regression and KNN
 
-Performance Criteria- TP Rate, FP Rate, Recall, Precision, Confusion matrix
-Compare results of Logistic regression and KNN
-
-
-The Experiment
-Before I began, I changed the format of the "quality" column to factor so it can be used as a label and not a numeric value
-
-winequality.red[, "quality"] <- as.factor(winequality.red[, "quality"])
-
-A check to ensure the class was changed.
-
-class(winequality.red$quality)
-
-Results
-> class(winequality.red$quality)
-[1] "factor"
->
-
-
-Then I searched for the independent variables that might be the most useful for my model.
-
+#I searched for the independent variables that might make the best prediction using
 fit <- glm(quality~.,data=winequality.red,family=binomial())
 summary(fit)
 
-Next I added those variables with the highest significance into RWeka for logistic regression and added a 10 fold cross validation and a summary of the accuracy by class.
 
-
+#next I added those variables into RWeka for logistic regression
 weka_fit <- Logistic(quality~volatile.acidity+total.sulfur.dioxide, data = winequality.red)
 evaluate_Weka_classifier(weka_fit, numFolds = 10, class = TRUE)
 
-#I decided to use all the variables of my datasets to see if I could improve performance.
-
+#I compared it to using all the variable of my datasets to see if I could improve performance
 weka_fit <- Logistic(quality~., data = winequality.red)
 evaluate_Weka_classifier(weka_fit, numFolds = 10, class = TRUE)
 
-The performance of the second model which included all of the variables was better than the 
-first that only used 2 variables.  Then I compared the performance of the Logistic regression to KNN.
+#The performance of the second model which included all of the variables was better than the 
+#first that only used 2 variables
+#Then I compared the performance of the Logistic regression to KNN
+
 
 classifier <- IBk(quality ~., data = winequality.red,
                   control = Weka_control(K =20, X=TRUE))
@@ -86,8 +74,4 @@ evaluate_Weka_classifier(classifier, numFolds = 10, class = TRUE)
 
 classifier
 
-#In the end, KNN was a better predictor than logistic regression.
-
-
-
-
+#KNN was a better predictor than logistic regression.
